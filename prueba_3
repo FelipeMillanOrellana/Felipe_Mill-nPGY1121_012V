@@ -1,0 +1,106 @@
+import numpy as np
+nombre = input("Ingrese el nombre del cliente: ")
+apellido = input("Ingrese el apellido del cliente: ")
+productos = np.array([], dtype=[('id', 'U100'), ('tipo_producto', 'U100'), ('marca','U100'), ('modelo','U100'), ('precio', int)])
+
+def validar_id(id):
+  return len(id)>=5
+
+def validar_tipo_producto(tipo_producto):
+  return len(tipo_producto)>=8
+
+def grabar_producto():
+    global productos  
+
+    while True:
+        id = input("Ingrese el Id del producto: ")
+        if validar_id(id):
+          break
+        else:
+          print("Id invalido debe tener 3 letras y de 2 a 6 números")
+
+    while True:
+        tipo_producto = input("Ingrese el tipo de producto: ")
+        if validar_tipo_producto(tipo_producto):
+          break
+        else:
+          print("tipo de producto invalido debe tener almenos 8 caracteres")
+
+    marca = input("Ingrese la marca del producto: " )
+
+    modelo = input("Ingrese el modelo del producto: ")
+    
+    while True:
+        precio = int(input("Ingrese el precio del producto: "))
+        if precio > 0:
+            break
+        else:
+            print("Precio inválido. Debe ser mayor a cero.")
+
+    producto = np.array([(id, tipo_producto, marca, modelo, precio)], dtype=productos.dtype)
+
+    productos = np.concatenate([productos, producto])
+
+    print("Producto grabado exitosamente.")
+
+def buscar_producto():
+
+    global productos  
+
+    id = input("Ingrese el Id del producto que desea buscar: ")
+    encontrado = False
+
+    for producto in productos:
+        if producto["id"] == id:
+            encontrado = True
+            if producto["precio"] >= 1:
+                print("Id:", producto["id"])
+                print("Tipo de producto:", producto["tipo_producto"])
+                print("Marca del producto", producto["marca"])
+                print("Modelo del producto", producto["modelo"])
+                print("Precio del Producto:", producto["precio"])
+            else:
+                print("Producto sin stock")
+            break
+    if not encontrado:
+        print("Producto no encontrado.")
+
+def imprimir_cotizacion():
+    global productos  
+
+    for producto in productos:
+      print("Id:", producto["id"])
+      print("Tipo de producto:", producto["tipo_producto"])
+      print("Marca del producto", producto["marca"])
+      print("Modelo del producto", producto["modelo"])
+      print("Precio del Producto:", producto["precio"])
+      print()
+
+def salir_programa(nombre, apellido):
+    print("¡Gracias por usar el programa!")
+    print("Nombre Cliente:", nombre, apellido)
+    exit()
+
+def mostrar_menu():
+    print("------ Menú ------")
+    print("Ingrese una delas sigientes opcciones")
+    print("1. Grabar")
+    print("2. Buscar")
+    print("3. Imprimir")
+    print("4. Salir")
+
+while True:
+  mostrar_menu()
+  opcion = input("Ingrese una opción: ")
+  if opcion == "1":
+    grabar_producto()
+  elif opcion == "2":
+    buscar_producto()
+  elif opcion == "3":
+    imprimir_cotizacion()
+  elif opcion == "4":
+    print("Gracias por su tiempo")
+    print(nombre,apellido)
+    break
+  else:
+    print("Opción no valida. Por favor ingrese una opción válida.")
